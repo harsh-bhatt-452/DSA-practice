@@ -1,0 +1,142 @@
+public class singlyLinkedList {
+	
+	ListNode head;
+	private int length=0;
+	
+	public singlyLinkedList() {
+		length=0;
+	}
+	
+	public ListNode getHead() {
+		return head;
+	}
+	
+	public void insertAtBeginning(ListNode node) {
+		node.setNext(head);
+		head = node;
+		length++;		
+	}
+	
+	public void insertAtEnd(ListNode node) {
+		if(head==null)
+			head = node;
+		else {
+			ListNode p;
+			p = head;
+			while(p.getNext()!=null) {
+				p = p.getNext();
+			}
+			p.setNext(node);
+			length++;
+		}
+	}
+	
+	public void insertAtPosition(int data,int position) {
+		if(position<0)
+			position = 0;
+		if(position > length)
+			position = length;
+		
+		if(head == null)
+			head = new ListNode(data);
+		else if(position == 0) {
+			ListNode temp = new ListNode(data);
+			temp.setNext(head);
+			head = temp;
+		}
+		else {
+			ListNode temp=head;
+			for (int i=1;i<position;i++) {
+				temp=temp.getNext();
+			}
+			ListNode newNode = new ListNode(data);
+			newNode.setNext(temp);
+			temp.setNext(newNode);
+		}
+		length++ ;
+	}
+	
+	public void deleteFromBeginning() {
+		ListNode temp = head;
+		System.out.println("Node being deleted from beginning:"+head.getData());
+		if(temp!=null) {
+			head=temp.getNext();
+			temp.setNext(null);
+		}	
+		length--;
+	}
+	
+	public void deleteFromEnd() {
+		ListNode P,Q,temp;
+		P=head;
+		Q=head;
+		temp=head;
+		if(head==null)
+			return;
+		if(head.getNext()==null) {
+			System.out.println("Node being deleted from end:"+head.getData());
+			head=null;
+			length--;
+			return;
+		}
+		while(P.getNext()!=null) {
+			P=P.getNext();
+			Q=P;
+			temp=Q;
+		}
+		System.out.println("Node being deleted from end:"+P.getData());
+		temp.setNext(null);
+		length--;
+		return;
+	}
+	
+	public void deleteFromPosition(int pos) {
+		if(pos<0) {
+			pos=0;
+		}
+		if(pos==1) {
+			System.out.println("Node being deleted from pos "+pos+" is:"+head.getData());
+			head=head.getNext();
+			length--;
+			return;
+		}
+		if(pos>length) {
+			pos=length-1;
+		}
+		ListNode temp=head,P=head;
+		for(int i=1;i<pos;i++) {
+			temp=P;
+			P=P.getNext();
+		}
+		System.out.println("Node being deleted from pos "+pos+" is:"+P.getData());
+		temp.setNext(P.getNext());
+		P.setNext(null);
+		length--;
+		return;
+	}
+	public void displayList() {
+		ListNode temp = head;
+		System.out.println("Length of list :"+ length);
+		for(int i=0;i<length;i++) {
+			System.out.println(temp.getData());
+			temp = temp.getNext();
+		}
+	
+	}
+	public static void main(String[] args) {
+		singlyLinkedList newList= new singlyLinkedList();
+		ListNode newNode = new ListNode(5);
+		newList.insertAtBeginning(newNode);
+		ListNode newNode2 = new ListNode(6);
+		newList.insertAtBeginning(newNode2);
+		ListNode newNode3 = new ListNode(7);
+		newList.insertAtEnd(newNode3);
+		newList.insertAtPosition(9,0);
+		newList.displayList();
+		newList.deleteFromPosition(3);
+		newList.deleteFromBeginning();
+		newList.displayList();
+		newList.deleteFromEnd();
+		newList.displayList();
+	}
+}
